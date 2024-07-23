@@ -1,0 +1,50 @@
+import math
+
+# Define the values of the leaf nodes
+# In a real game, these would be dynamically generated based on the game state
+values = [3, 5, 6, 9, 1, 2, 0, -1]
+
+# Define a simple game tree structure
+class Node:
+    def __init__(self, value=None, children=None):
+        self.value = value
+        self.children = children or []
+
+def minimax(node, depth, maximizingPlayer):
+    if depth == 0 or not node.children:
+        return node.value
+
+    if maximizingPlayer:
+        maxEval = -math.inf
+        for child in node.children:
+            eval = minimax(child, depth - 1, False)
+            maxEval = max(maxEval, eval)
+        return maxEval
+    else:
+        minEval = math.inf
+        for child in node.children:
+            eval = minimax(child, depth - 1, True)
+            minEval = min(minEval, eval)
+        return minEval
+
+# Create a simple game tree for demonstration
+# Structure: Node(value, [list of children nodes])
+leaf_nodes = [Node(value=v) for v in values]
+
+level2_nodes = [
+    Node(children=[leaf_nodes[0], leaf_nodes[1]]),
+    Node(children=[leaf_nodes[2], leaf_nodes[3]]),
+    Node(children=[leaf_nodes[4], leaf_nodes[5]]),
+    Node(children=[leaf_nodes[6], leaf_nodes[7]])
+]
+
+level1_nodes = [
+    Node(children=[level2_nodes[0], level2_nodes[1]]),
+    Node(children=[level2_nodes[2], level2_nodes[3]])
+]
+
+root = Node(children=level1_nodes)
+
+# Run the Minimax algorithm
+best_value = minimax(root, depth=3, maximizingPlayer=True)
+print(f"The best value for the maximizing player is: {best_value}")
