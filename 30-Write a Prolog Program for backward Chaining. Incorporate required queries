@@ -1,0 +1,13 @@
+% Facts
+parent(john, mary).
+parent(mary, susan).
+parent(susan, anna).
+
+% Rules
+ancestor(X, Y) :- parent(X, Y).
+ancestor(X, Y) :- parent(X, Z), ancestor(Z, Y).
+
+% Queries
+% ?- ancestor(john, anna).
+% ?- ancestor(mary, anna).
+% ?- ancestor(susan, mary).
